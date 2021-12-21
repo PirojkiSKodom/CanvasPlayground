@@ -1,13 +1,13 @@
 function myff(x, y){
     let r = 0;
-    let g = x * x + y * y + i;
+    let g = 128 + 128*Math.sin((x**2  + y**2 + d)/100) ;
     let b = 0;
     return new Color(r, g, b);
 }
 
-let i = 0;
+let d = 0;
 function draw(ctx) {
-    i += 10;
+    d += 10;
     ctx.fillWithData(myff);
-
 }
+

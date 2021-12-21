@@ -1,26 +1,15 @@
 let ctx = canvas.getContext('2d');
 
 ctx.fillWithData = function (fillFunc) {
-    const imageData = this.getImageData(0, 0, camera.width, camera.height);
+    const imageData = this.getImageData(0,0,camera.width, camera.height);
     const data = imageData.data;
-
-    let centerx = camera.x * camera.speed + camera.width / 2;
-    let centery = camera.y * camera.speed + camera.height / 2;
 
     let i = 0;
     for (let y = 0; y < camera.height; y++) {
         for (let x = 0; x < camera.width; x++) {
 
-            let tx = x - camera.width/2;
-            let ty = y - camera.height/2;
-
-            tx = tx * (1 + camera.zoom/100);
-            ty = ty * (1 + camera.zoom/100);
-
-            tx = centerx + tx  ;
-            ty = centery + ty ;
-
- 
+            let tx = (x - camera.center.x) * camera.zoom + camera.x;
+            let ty = (y - camera.center.y) * camera.zoom + camera.y;
 
             let cl = fillFunc(tx, ty);
 
@@ -37,37 +26,48 @@ function update() {
     canvas.width = document.getElementById('frame').clientWidth;
     canvas.height = document.getElementById('frame').clientHeight;
 
-
     camera.width = canvas.width;
     camera.height = canvas.height;
 
-    if (keysPressed.has('KeyW')) camera.y--;
-    if (keysPressed.has('KeyA')) camera.x--;
-    if (keysPressed.has('KeyS')) camera.y++;
-    if (keysPressed.has('KeyD')) camera.x++;
+    camera.center.x = camera.width / 2;
+    camera.center.y = camera.height / 2;
 
-    if (keysPressed.has('KeyZ')) camera.zoom++;
-    if (keysPressed.has('KeyX')) camera.zoom--;
 
+    if (keysPressed.has('KeyW')) camera.y -= camera.speed;
+    if (keysPressed.has('KeyA')) camera.x -= camera.speed;
+    if (keysPressed.has('KeyS')) camera.y += camera.speed;
+    if (keysPressed.has('KeyD')) camera.x += camera.speed;
+
+    if (keysPressed.has('KeyZ')) camera.zoom /= camera.zoomSpeed;
+    if (keysPressed.has('KeyX')) camera.zoom *= camera.zoomSpeed;
+
+    if (keysPressed.has('KeyC')) camera.reset();
 
     draw(ctx);
-
-
-
-
-
 
     //setTimeout(update, 100);//update again after 100 milliseconds
     window.requestAnimationFrame(update); //update asap (60fps)
 }
 
-let camera = {
-    x: 0,
-    y: 0,
-    zoom: 0,
-    width: 500,
-    height: 500,
-    speed: 10,
+let camera = new function () {
+    this.reset = ()=>{
+        this.x = 0;
+        this.y = 0;
+        this.zoom = 1;
+
+        this.speed = 10;
+        this.zoomSpeed = 1.01;
+
+        this.width = canvas.width;
+        this.height = canvas.height;
+
+        this.center = {
+            x: this.width / 2,
+            y: this.height / 2,
+        }
+    }
+
+    this.reset();    
 }
 
 let keysPressed = new Set();

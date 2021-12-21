@@ -4,14 +4,19 @@ class Color {
             Math.random() * 255,
             Math.random() * 255,
             Math.random() * 255,
-            255
         )
     }
 
     constructor(r, g, b, a = 255) {
-        this.r = Math.floor(r % 256);
-        this.g = Math.floor(g % 256);;
-        this.b = Math.floor(b % 256);;
-        this.a = Math.floor(a % 256);;
+        let normalize = (i) => {
+            i = i % 256;
+            if (i < 0) i = 256 + i;
+            return i;
+        }
+
+        this.r = Math.floor(normalize(r));
+        this.g = Math.floor(normalize(g));
+        this.b = Math.floor(normalize(b));
+        this.a = Math.floor(normalize(a));
     }
 }
