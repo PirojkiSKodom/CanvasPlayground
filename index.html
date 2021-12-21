@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Canvas playground</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: darkblue;
+        }
+
+        #frame {
+            border: 2px solid;
+            resize: both;
+            overflow: hidden;
+
+            width: 500px;
+            height: 500px;
+
+        }
+
+        #megaframe {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+     
+        }
+    </style>
+</head>
+
+<body onload="update();">
+    <div id='megaframe'>
+        <div id='frame'>
+            <canvas id="canvas" width="500" height="500"></canvas>
+        </div>
+    </div>
+
+
+    <script>
+        let str = (new Date()).toLocaleString("ru", {
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+        })
+        document.title = `Createt at: ${str}`;
+    </script>
+
+    <script src="color.js"></script>
+    <script src="draw.js"></script>
+    <script src="graphics.js"></script>
+
+</body>
+
+</html>
