@@ -9,14 +9,16 @@ class Color {
 
     constructor(r, g, b, a = 255) {
         let normalize = (i) => {
+            //return i % 256;
+            
             i = i % 256;
             if (i < 0) i = 256 + i;
-            return i;
+            return Math.floor(i);
         }
 
-        this.r = Math.floor(normalize(r));
-        this.g = Math.floor(normalize(g));
-        this.b = Math.floor(normalize(b));
-        this.a = Math.floor(normalize(a));
+        this.r = normalize(r);
+        this.g = normalize(g);
+        this.b = normalize(b);
+        this.a = normalize(a);
     }
 }

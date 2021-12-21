@@ -1,8 +1,8 @@
 let ctx = canvas.getContext('2d');
 
+
 ctx.fillWithData = function (fillFunc) {
-    const imageData = this.getImageData(0,0,camera.width, camera.height);
-    const data = imageData.data;
+    let imageData = new ImageData(canvas.width, camera.height);
 
     let i = 0;
     for (let y = 0; y < camera.height; y++) {
@@ -13,13 +13,14 @@ ctx.fillWithData = function (fillFunc) {
 
             let cl = fillFunc(tx, ty);
 
-            data[i++] = cl.r; // red
-            data[i++] = cl.g; // green
-            data[i++] = cl.b; // blue
-            data[i++] = cl.a; // alpha
+            imageData.data[i++] = cl.r; // red
+            imageData.data[i++] = cl.g; // green
+            imageData.data[i++] = cl.b; // blue
+            imageData.data[i++] = cl.a; // alpha
         }
     }
     this.putImageData(imageData, 0, 0);
+    imageData = null;
 }
 
 function update() {
