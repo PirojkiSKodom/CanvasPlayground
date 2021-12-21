@@ -8,34 +8,37 @@
         body {
             margin: 0;
             background-color: darkblue;
+            
+        }
+
+        label {
+            display: block;
+            color: white;
         }
 
         #frame {
             border: 2px solid;
-            resize: both;
-            overflow: hidden;
-
             width: 500px;
             height: 500px;
-
-        }
-
-        #megaframe {
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-     
+            resize: both;
+            overflow: hidden;
+            top: 0;
+            position: fixed;
         }
     </style>
 </head>
 
-<body onload="update();">
-    <div id='megaframe'>
-        <div id='frame'>
-            <canvas id="canvas" width="500" height="500"></canvas>
-        </div>
+<body onload="update();canvas.resize();">
+    <label id='camX'></label>
+    <label id='camY'></label>
+    <label id='camZoom'></label>
+
+
+
+    <div id='frame'>
+        <canvas id="canvas"></canvas>
     </div>
+
 
     <script src="color.js"></script>
     <script src="draw.js"></script>

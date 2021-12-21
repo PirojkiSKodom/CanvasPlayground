@@ -1,3 +1,5 @@
+//(x**2 /y**2 + d)
+
 function myff(x, y){
     let r = 0;
     let g = 128 + 128*Math.sin((x**2  + y**2 + d)/50) ;

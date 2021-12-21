@@ -10,7 +10,7 @@ class Color {
     constructor(r, g, b, a = 255) {
         let normalize = (i) => {
             //return i % 256;
-            
+
             i = i % 256;
             if (i < 0) i = 256 + i;
             return Math.floor(i);

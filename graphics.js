@@ -1,3 +1,5 @@
+
+
 let ctx = canvas.getContext('2d');
 
 
@@ -24,25 +26,30 @@ ctx.fillWithData = function (fillFunc) {
 }
 
 function update() {
-    canvas.width = document.getElementById('frame').clientWidth;
-    canvas.height = document.getElementById('frame').clientHeight;
-
-    camera.width = canvas.width;
-    camera.height = canvas.height;
-
-    camera.center.x = camera.width / 2;
-    camera.center.y = camera.height / 2;
 
 
-    if (keysPressed.has('KeyW')) camera.y -= camera.speed;
-    if (keysPressed.has('KeyA')) camera.x -= camera.speed;
-    if (keysPressed.has('KeyS')) camera.y += camera.speed;
-    if (keysPressed.has('KeyD')) camera.x += camera.speed;
+    if (keysPressed.has('KeyW')) camera.y -= camera.speed * camera.zoom;
+    if (keysPressed.has('KeyA')) camera.x -= camera.speed * camera.zoom;
+    if (keysPressed.has('KeyS')) camera.y += camera.speed * camera.zoom;
+    if (keysPressed.has('KeyD')) camera.x += camera.speed * camera.zoom;
 
     if (keysPressed.has('KeyZ')) camera.zoom /= camera.zoomSpeed;
     if (keysPressed.has('KeyX')) camera.zoom *= camera.zoomSpeed;
 
+    if (keysPressed.has('Equal')) camera.zoomSpeed += 0.0001;
+    if (keysPressed.has('Minus')) camera.zoomSpeed -= 0.0001;
+
     if (keysPressed.has('KeyC')) camera.reset();
+
+    
+
+
+    
+
+
+    camX.innerHTML = `camera.x: ${camera.x.toFixed(0)}`;
+    camY.innerHTML = `camera.y: ${camera.y.toFixed(0)}`;
+    camZoom.innerHTML = `camera.zoom: ${camera.zoom.toFixed(3)}`;
 
     draw(ctx);
 
@@ -51,7 +58,7 @@ function update() {
 }
 
 let camera = new function () {
-    this.reset = ()=>{
+    this.reset = () => {
         this.x = 0;
         this.y = 0;
         this.zoom = 1;
@@ -68,7 +75,7 @@ let camera = new function () {
         }
     }
 
-    this.reset();    
+    this.reset();
 }
 
 let keysPressed = new Set();
@@ -80,3 +87,26 @@ document.onkeydown = (event) => {
 document.onkeyup = (event) => {
     keysPressed.delete(event.code);
 }
+
+
+canvas.resize = function () {
+    canvas.width = frame.clientWidth;
+    canvas.height = frame.clientHeight;
+
+    frame.style.marginLeft = `${Math.floor((document.documentElement.clientWidth - frame.clientWidth) / 2)}px`;
+    
+    camera.width = canvas.width;
+    camera.height = canvas.height;
+
+    camera.center = {
+        x: camera.width / 2,
+        y: camera.height / 2,
+    }
+    
+}
+
+var observer = new MutationObserver(function (mutations) {
+    canvas.resize();
+});//edrity kostyl konshno
+
+observer.observe(frame, { attributes: true, attributeFilter: ['style'] });
