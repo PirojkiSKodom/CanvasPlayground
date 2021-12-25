@@ -28,7 +28,7 @@
     </style>
 </head>
 
-<body onload="update();canvas.resize();">
+<body onload="canvas.resize();window.requestAnimationFrame(update);">
     <label id='camX'></label>
     <label id='camY'></label>
     <label id='camZoom'></label>
